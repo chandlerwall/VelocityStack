@@ -1,6 +1,7 @@
 use <MCAD/polyholes.scad>
+use <Libraries/bezier.scad>
 
-mount_thickness = 4;
+mount_thickness = 4.15;
 mount_tab_d = 14;
 mount_tab_r = mount_tab_d/2;
 mount_hole_d = 7;
@@ -12,13 +13,14 @@ intake_mount_d = 50;
 intake_mount_r = intake_mount_d/2;
 intake_top_d = 50;
 intake_top_r = intake_top_d/2;
-intake_height = 48.3 - mount_thickness;
+intake_height = 10 - mount_thickness;
+//intake_height = 48.3 - mount_thickness;
 intake_wall_thickness = 5;
 
 fillet_size = 2.5;
 
 pad = 0.02;
-smooth = 32;
+smooth = 64;
 
 difference()
 {
@@ -38,6 +40,25 @@ difference()
 
         translate([0,0,(intake_height/2)])
             cylinder(h=intake_height, r1=intake_mount_r, r2=intake_top_r, center = true, $fn = smooth);
+
+        translate([0, 0, intake_height-pad])
+        rotate_extrude(convexity=10, $fn=smooth)
+        translate([20, 0, 0])
+        union() {
+        BezWall(
+            [[0, 0],
+            [0, 6.5],
+            [0, 15.0],
+            //[274, 71]
+            [8, 22.0],
+            [18.00, 15.75],
+            //[367, 191]
+            [5.0, 9.0],
+            [5.0, 6.5],
+            [5.0, 0]],
+            width = 4, height = 0, steps = smooth, showCtls = false);
+        translate([7.25,13.55])circle(1.75, $fn=smooth);
+        }
 
         translate([0,0,mount_thickness/2])
             difference() {
