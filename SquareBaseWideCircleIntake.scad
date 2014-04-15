@@ -13,7 +13,7 @@ intake_mount_d = 50;
 intake_mount_r = intake_mount_d/2;
 intake_top_d = 50;
 intake_top_r = intake_top_d/2;
-intake_full_h = 48.4;
+intake_full_h = 48.4 + 3; // + 3.16
 intake_flare_h = 12;
 intake_height = intake_full_h - intake_flare_h - mount_thickness;
 intake_wall_thickness = 5;
@@ -24,7 +24,7 @@ points = [
 [0,0],
 [9,12],
 [9,9],
-[5,0]
+[2.5,0]
 ];
 
 pad = 0.02;
@@ -51,7 +51,7 @@ difference()
 
         translate([pad, 0, intake_height-pad])
         rotate_extrude(convexity=10, $fn=smooth)
-        translate([20, 0, 0])
+        translate([22.5, 0, 0])
         bezier_polygon([
             points[0], points[0] + [0,9], points[1] - [0,0],
             points[1], points[1] + [1,0.5], points[2] + [1.5, 0.5],
@@ -74,7 +74,7 @@ difference()
 
     // Hollow the cylinder
     translate([0,0,(intake_height/2)])
-        cylinder(h=intake_height+intake_wall_thickness, r1=intake_mount_r - intake_wall_thickness, r2=intake_top_r - intake_wall_thickness, center = true, $fn = smooth);
+        cylinder(h=intake_height+intake_wall_thickness, r1=intake_mount_r - intake_wall_thickness/2, r2=intake_top_r - intake_wall_thickness/2, center = true, $fn = smooth);
 
     // Mounting holes
     hull() {
